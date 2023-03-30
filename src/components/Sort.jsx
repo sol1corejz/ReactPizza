@@ -1,9 +1,19 @@
 import React from 'react';
 
 export default function Sort() {
+  const [isOpened, setIsOpened] = React.useState(false);
+  const [index, setIndex] = React.useState(0);
+
+  const sort = ['популярности', 'цене', 'алфавиту'];
+
+  const chooseSort = (idx) => {
+    setIndex(idx);
+    setIsOpened(false);
+  };
+
   return (
     <div className="sort">
-      <div className="sort__label">
+      <div className="sort__label" onClick={() => setIsOpened(!isOpened)}>
         <svg
           width="10"
           height="6"
@@ -15,15 +25,22 @@ export default function Sort() {
             fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span>{sort[index]}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isOpened && (
+        <div className="sort__popup">
+          <ul>
+            {sort.map((elemenet, idx) => (
+              <li
+                key={idx}
+                onClick={() => chooseSort(idx)}
+                className={idx === index ? 'active' : ''}>
+                {elemenet}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

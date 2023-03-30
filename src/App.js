@@ -3,9 +3,21 @@ import Categories from './components/Categories';
 import './scss/app.scss';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
-import pizzas from './assets/pizza.json';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('https://64258b189e0a30d92b350f76.mockapi.io/items')
+      .then((res) => {
+        setItems(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -17,7 +29,7 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {pizzas.map((pizza) => (
+            {items.map((pizza) => (
               <PizzaBlock {...pizza} />
             ))}
           </div>
