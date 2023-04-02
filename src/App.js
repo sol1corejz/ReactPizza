@@ -10,13 +10,11 @@ function App() {
     <div className="wrapper">
       <Header />
       <div className="content">
-        <div className="container">
-          <Routes>
-            <Route path="/" default Component={Home} />
-            <Route path="/cart" Component={Cart} />
-            <Route path="*" Component={NotFound} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" default Component={Home} />
+          <Route path="/cart" Component={Cart} />
+          <Route path="*" Component={NotFound} />
+        </Routes>
       </div>
     </div>
   );

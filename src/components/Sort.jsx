@@ -1,13 +1,16 @@
 import React from 'react';
 
-export default function Sort() {
+export default function Sort({ value, setValue, order, setOrder }) {
   const [isOpened, setIsOpened] = React.useState(false);
-  const [index, setIndex] = React.useState(0);
 
-  const sort = ['популярности', 'цене', 'алфавиту'];
+  const sort = [
+    { name: 'популярности', sortProperty: 'rating' },
+    { name: 'цене', sortProperty: 'price' },
+    { name: 'алфавиту', sortProperty: 'alphabet' },
+  ];
 
-  const chooseSort = (idx) => {
-    setIndex(idx);
+  const chooseSort = (obj) => {
+    setValue(obj);
     setIsOpened(false);
   };
 
@@ -15,6 +18,11 @@ export default function Sort() {
     <div className="sort">
       <div className="sort__label" onClick={() => setIsOpened(!isOpened)}>
         <svg
+          style={order ? { transform: `rotate(180deg)` } : {}}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOrder(!order);
+          }}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -25,17 +33,17 @@ export default function Sort() {
             fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
-        <span>{sort[index]}</span>
+        <span>{value.name}</span>
       </div>
       {isOpened && (
         <div className="sort__popup">
           <ul>
-            {sort.map((elemenet, idx) => (
+            {sort.map((elemenet, index) => (
               <li
-                key={idx}
-                onClick={() => chooseSort(idx)}
-                className={idx === index ? 'active' : ''}>
-                {elemenet}
+                key={index}
+                onClick={() => chooseSort(elemenet)}
+                className={elemenet.sortProperty === value.sortProperty ? 'active' : ''}>
+                {elemenet.name}
               </li>
             ))}
           </ul>

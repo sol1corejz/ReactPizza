@@ -20,7 +20,10 @@ body {
   padding: 40px 0;
 
   &__title {
-    margin: 35px 0;
+    font-weight: 800;
+    font-size: 38px;
+    margin-top: 60px;
+    margin-bottom: 50px;
   }
 
   &__items {
@@ -45,6 +48,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 1260px) {
+      flex-direction: column-reverse;
+
+      .categories{
+        margin-top: 30px;
+        ul{
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+    }
   }
 }
 
@@ -115,6 +130,10 @@ body {
         color: darken($color: #b6b6b6, $amount: 50);
       }
     }
+  }
+
+  .content__items{
+    display: block;
   }
 
   &__item {
