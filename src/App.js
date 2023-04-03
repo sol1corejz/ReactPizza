@@ -4,16 +4,19 @@ import './scss/app.scss';
 import { Home } from './pages/Home';
 import { Cart } from './pages/Cart';
 import { NotFound } from './pages/NotFound';
+import React, { useState } from 'react';
 
 function App() {
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="content">
         <Routes>
-          <Route path="/" default Component={Home} />
-          <Route path="/cart" Component={Cart} />
-          <Route path="*" Component={NotFound} />
+          <Route path="/" default element={<Home searchValue={searchValue} />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
