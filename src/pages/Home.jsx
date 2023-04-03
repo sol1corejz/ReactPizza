@@ -31,7 +31,7 @@ export const Home = ({ searchValue }) => {
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [category, sortType, orderQuery, searchValue, currentPage]);
+  }, [category, sortType, orderQuery, searchQuery, currentPage]);
 
   const pizzas = items.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />);
   const skeletons = [...new Array(4)].map((_, idx) => <PizzaBlockSkeleton key={idx} />);
