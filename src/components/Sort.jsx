@@ -1,27 +1,42 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setSortType } from '../redux/slices/filterSlice';
 
+export const sortList = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'alphabet' },
+];
+
 export default function Sort({ order, setOrder }) {
+  const sortRef = useRef();
   const dispatch = useDispatch();
   const sortType = useSelector((state) => state.filter.sort);
 
   const [isOpened, setIsOpened] = React.useState(false);
-
-  const sort = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'alphabet' },
-  ];
 
   const chooseSort = (obj) => {
     dispatch(setSortType(obj));
     setIsOpened(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsOpened(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label" onClick={() => setIsOpened(!isOpened)}>
         <svg
           style={order ? { transform: `rotate(180deg)` } : {}}
@@ -44,7 +59,7 @@ export default function Sort({ order, setOrder }) {
       {isOpened && (
         <div className="sort__popup">
           <ul>
-            {sort.map((elemenet, index) => (
+            {sortList.map((elemenet, index) => (
               <li
                 key={index}
                 onClick={() => chooseSort(elemenet)}
