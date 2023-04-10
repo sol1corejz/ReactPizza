@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 
 import PizzaBlockSkeleton from '../components/PizzaBlock/PizzaBlockSkeleton';
@@ -10,20 +9,23 @@ import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Pagination from '../components/Pagination/Pagination';
-import { SearchContext } from '../App';
 
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import {
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 
-export const Home = () => {
+const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizza);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzaData);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -32,8 +34,6 @@ export const Home = () => {
     dispatch(setCurrentPage(number));
   };
   const [order, setOrder] = useState(false);
-
-  const { searchValue } = React.useContext(SearchContext);
 
   const category = categoryId ? `category=${categoryId}` : '';
   const orderQuery = order ? 'asc' : 'desc';
@@ -96,7 +96,12 @@ export const Home = () => {
     isMounted.current = true;
   }, [category, sort.sortProperty, currentPage]);
 
-  const pizzas = items.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />);
+  const pizzas = items.map((pizza) => (
+    <Link key={pizza.id} to={`pizza/${pizza.id}`}>
+      {' '}
+      <PizzaBlock {...pizza} />{' '}
+    </Link>
+  ));
   const skeletons = [...new Array(4)].map((_, idx) => <PizzaBlockSkeleton key={idx} />);
 
   return (
@@ -119,3 +124,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;

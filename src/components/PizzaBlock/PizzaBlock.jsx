@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addItem } from '../../redux/slices/cartSlice';
+import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
 export default function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
   const dispatch = useDispatch();
 
-  const cartItem = useSelector((state) => state.cart.items.find((item) => item.id === id));
+  const cartItem = useSelector(selectCartItemById(id));
 
   const addedCount = cartItem ? cartItem.count : 0;
 
@@ -15,7 +15,9 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
 
   const typeNames = ['тонкое', 'традиционное'];
 
-  const onClickAdd = () => {
+  const onClickAdd = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const item = {
       id,
       title,
@@ -38,7 +40,11 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
             {types.map((type, index) => (
               <li
                 key={index}
-                onClick={() => setPizzaType(index)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setPizzaType(index);
+                }}
                 className={pizzaType === index ? 'active' : ''}>
                 {typeNames[type]}
               </li>
@@ -48,7 +54,11 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
             {sizes.map((size, index) => (
               <li
                 key={index}
-                onClick={() => setPizzaSizeIndex(index)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setPizzaSizeIndex(index);
+                }}
                 className={pizzaSizeIndex === index ? 'active' : ''}>
                 {size} см.
               </li>
@@ -57,7 +67,7 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <div onClick={() => onClickAdd()} className="button button--outline button--add">
+          <div onClick={(e) => onClickAdd(e)} className="button button--outline button--add">
             <svg
               width="12"
               height="12"
