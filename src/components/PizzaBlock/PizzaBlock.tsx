@@ -3,7 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addItem, selectCartItemById } from '../../redux/slices/cartSlice';
 
-export default function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+type PizzaBlockType = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+
+const PizzaBlock: React.FC<PizzaBlockType> = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
 
   const cartItem = useSelector(selectCartItemById(id));
@@ -15,7 +24,7 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
 
   const typeNames = ['тонкое', 'традиционное'];
 
-  const onClickAdd = (e) => {
+  const onClickAdd = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const item = {
@@ -85,4 +94,6 @@ export default function PizzaBlock({ id, title, price, imageUrl, sizes, types })
       </div>
     </div>
   );
-}
+};
+
+export default PizzaBlock;
