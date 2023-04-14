@@ -2,11 +2,11 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search } from './Search/Search';
 import { useSelector } from 'react-redux';
-import { selectCart } from '../redux/slices/cartSlice';
+import { CartItemType, selectCart } from '../redux/slices/cartSlice';
 
 const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
-  const totalCount = items.reduce((sum: number, item: any) => (sum += item.count), 0);
+  const totalCount = items.reduce((sum: number, item: CartItemType) => (sum += item.count), 0);
 
   const location = useLocation();
 
