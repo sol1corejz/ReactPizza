@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { SortItem, selectSort, setSortType } from '../redux/slices/filterSlice';
 
@@ -14,7 +13,7 @@ export const sortList: SortItem[] = [
   { name: 'алфавиту', sortProperty: 'title' },
 ];
 
-const Sort: React.FC<SortProps> = ({ order, setOrder }) => {
+const Sort: React.FC<SortProps> = React.memo(({ order, setOrder }) => {
   const dispatch = useDispatch();
   const sortType = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
@@ -77,6 +76,6 @@ const Sort: React.FC<SortProps> = ({ order, setOrder }) => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

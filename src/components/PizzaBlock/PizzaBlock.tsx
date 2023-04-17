@@ -47,7 +47,6 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({
       type: typeNames[pizzaType],
       count: 0,
     };
-    console.log(item);
     dispatch(addItem(item));
   };
 

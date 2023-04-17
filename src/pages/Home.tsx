@@ -28,12 +28,12 @@ const Home: React.FC = () => {
   const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
 
-  const onClickCategory = (id: number) => {
+  const onClickCategory = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
-  const onChangePage = (number: number) => {
+  }, []);
+  const onChangePage = React.useCallback((number: number) => {
     dispatch(setCurrentPage(number));
-  };
+  }, []);
   const [order, setOrder] = useState(false);
 
   const category = categoryId ? `category=${categoryId}` : '';
