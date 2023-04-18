@@ -4,11 +4,10 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 
-import PizzaBlockSkeleton from '../components/PizzaBlock/PizzaBlockSkeleton';
-import Categories from '../components/Categories';
-import Sort, { sortList } from '../components/Sort';
-import PizzaBlock, { PizzaBlockType } from '../components/PizzaBlock/PizzaBlock';
-import Pagination from '../components/Pagination/Pagination';
+import { PizzaBlockSkeleton, Categories, Sort, PizzaBlock, Pagination } from '../components';
+
+import { sortList } from '../components/Sort';
+import { PizzaBlockType } from '../components/PizzaBlock/PizzaBlock';
 
 import {
   selectFilter,
